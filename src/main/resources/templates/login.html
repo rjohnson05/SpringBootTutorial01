@@ -7,8 +7,11 @@
 <body>
     <center><h1>Login</h1></center>
     <form action = "#" th:action = "@{/login}" th:object = "${loginForm}" method = "post">
+        <span th:if = "${#fields.hasGlobalErrors()}" th:errors = "*{global}">Global Error</span><br/>
         <input type = "text" th:field = "*{username}" placeholder = "Username"/><br/>
+        <span th:if = "${#fields.hasErrors('username')}" th:errors = "*{username}">Username Error</span><br/>
         <input type = "password" th:field = "*{password}" placeholder = "Password"/><br/>
+        <span th:if = "${#fields.hasErrors('password')}" th:errors = "*{password}">Password Error</span><br/>
         <button type = "submit">Login</button>
     </form>
 </body>
