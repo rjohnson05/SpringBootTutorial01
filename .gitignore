@@ -38,3 +38,6 @@ out/
 
 ### H2 Database Files ###
 /demoDb*
+
+### Log files ###
+logs/
