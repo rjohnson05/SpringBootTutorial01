@@ -1,5 +1,6 @@
 package edu.carroll.cs389.web.form.controller;
 
+import edu.carroll.cs389.service.LoginService;
 import edu.carroll.cs389.web.form.LoginForm;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
@@ -13,8 +14,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class LoginController {
-    private static final String validUser = "cs389user";
-    private static final String validPass = "supersecret";
+    private final LoginService loginService;
+
+    public LoginController(LoginService loginService) {
+        this.loginService = loginService;
+    }
+
     @GetMapping("/login")
     public String loginGet(Model model) {
         model.addAttribute("loginForm", new LoginForm());
@@ -26,8 +31,7 @@ public class LoginController {
         if (result.hasErrors()) {
             return "login";
         }
-        if (!validUser.equalsIgnoreCase(loginForm.getUsername()) &&
-        validPass.equals(loginForm.getPassword())) {
+        if (!loginService.validateUser(loginForm)) {
             result.addError(new ObjectError("globalError", "Username and password do not match known users"));
             return "login";
         }
